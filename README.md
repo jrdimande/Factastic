@@ -15,7 +15,7 @@
 
 ## 📸 Visual do Aplicativo
 
-![Preview do Factastic](assests/GUI.png)  
+![Preview do Factastic](src/assests/GUI.png)  
 *Imagem ilustrativa da interface principal do aplicativo.*
 
 ---
