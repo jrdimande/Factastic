@@ -1,7 +1,9 @@
+import json
 import tkinter as tk
 from tkinter import PhotoImage
 from PIL import ImageTk, Image
 from src.apis.client import generate_random_facts
+from src.storage.saved_facts import load_Facts, dump_fact
 
 def launch_app():
     # Create main window
@@ -24,6 +26,14 @@ def launch_app():
     def next_fact():
         fact = generate_random_facts()
         text_label.config(text=fact)
+
+    def like_save_fact():
+        saved_facts = load_Facts()
+        fact = text_label.cget("text")
+        if fact and fact != "Click 'Next Fact' to start!":
+            dump_fact(saved_facts, fact)
+
+
 
     # Create a frame for the title area
     app_title_lf = tk.LabelFrame(root, text="", bg="#2C3E50", width=30, height=50, bd=0)
@@ -68,8 +78,13 @@ def launch_app():
     btn_next.place(x=90, y=340)
 
     # Button to like and save a fact
-    btn_fav = tk.Button(root, text="Like and Save", width=40, bg="#F39C12", fg="#ECF0F1",
-                        font=("Segoe UI", 10, "bold"))
+    btn_fav = tk.Button(root,
+                        text="Like and Save",
+                        width=40,
+                        bg="#F39C12",
+                        fg="#ECF0F1",
+                        font=("Segoe UI", 10, "bold"),
+                        command=like_save_fact)
     btn_fav.place(x=90, y=400)
 
     root.bind("<Return>", lambda event: next_fact())
