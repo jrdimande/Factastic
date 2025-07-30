@@ -49,6 +49,12 @@ def launch_app():
     label_txt = tk.Label(app_title_lf, text="Factastic", font=("Segoe UI", 14, "bold"), bg="#2C3E50", fg="#ECF0F1")
     label_txt.place(x=50, y=5)
 
+    # Create settings button
+    setting_img = PhotoImage(file="src/assets/setting.png")
+    btn_setting = tk.Button(app_title_lf, image=setting_img, bg="#2C3E50", relief="groove", bd=0)
+    btn_setting.place(x=450, y=5)
+
+
     # Load and display the "Did you know" image
     response_img = PhotoImage(file="src/assets/did-you-know.png")
     response_img_label = tk.Label(root, image=response_img, bg="#2C3E50")
