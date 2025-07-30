@@ -13,7 +13,7 @@ def launch_app():
 
     # Try to load and set the app icon
     try:
-        img = Image.open("assests/brain.png")
+        img = Image.open("src/assets/brain.png")
         img = img.resize((64, 64))
         icon = ImageTk.PhotoImage(img)
         root.wm_iconphoto(True, icon)
@@ -30,7 +30,7 @@ def launch_app():
     app_title_lf.pack(side="top", fill="x")
 
     # Load and show the logo image
-    img = PhotoImage(file="assests/brain.png")
+    img = PhotoImage(file="src/assets/brain.png")
     label_img = tk.Label(app_title_lf, image=img, bg="#2C3E50")
     label_img.image = img  # keep a reference to avoid garbage collection
     label_img.place(x=10, y=5)
@@ -40,7 +40,7 @@ def launch_app():
     label_txt.place(x=50, y=5)
 
     # Load and display the "Did you know" image
-    response_img = PhotoImage(file="assests/did-you-know.png")
+    response_img = PhotoImage(file="src/assets/did-you-know.png")
     response_img_label = tk.Label(root, image=response_img, bg="#2C3E50")
     response_img_label.image = response_img  # keep reference
     response_img_label.place(x=50, y=60)
@@ -71,6 +71,8 @@ def launch_app():
     btn_fav = tk.Button(root, text="Like and Save", width=40, bg="#F39C12", fg="#ECF0F1",
                         font=("Segoe UI", 10, "bold"))
     btn_fav.place(x=90, y=400)
+
+    root.bind("<Return>", lambda event: next_fact())
 
 
     root.mainloop()
