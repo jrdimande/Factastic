@@ -19,7 +19,7 @@ def launch_app():
     mute = True
     temporary_facts = []
 
-    #
+    # Essa função preeche a lista com factos temporários para deixar o app mais r;ápido (enquanto mostra factos faz requests)
     def preload_facts(count=5):
         for _ in range(count):
             fact = generate_random_facts()
