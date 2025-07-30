@@ -8,7 +8,6 @@ from src.utils.ttsx import say
 import threading
 
 
-
 def launch_app():
     # Create main window
     root = tk.Tk()
@@ -18,29 +17,36 @@ def launch_app():
     root.resizable(False, False)
 
     mute = True
+    temporary_facts = []
 
-    # Try to load and set the app icon
-    try:
-        img = Image.open("src/assets/brain.png")
-        img = img.resize((64, 64))
-        icon = ImageTk.PhotoImage(img)
-        root.wm_iconphoto(True, icon)
-    except:
-        print("Erro!")
+    #
+    def preload_facts(count=5):
+        for _ in range(count):
+            fact = generate_random_facts()
+            if fact not in temporary_facts:
+                temporary_facts.append(fact)
+
+    preload_facts()
 
     # Function to get the next fact and update the label
     def next_fact():
-        fact = generate_random_facts()
+        nonlocal temporary_facts
+        if not temporary_facts:
+            preload_facts()
+
+        fact = temporary_facts.pop(0)
         text_label.config(text=fact)
         threading.Thread(target=say, args=(fact,), daemon=True).start()
+
+        # Recarrega mais factos em segundo plano se o buffer estiver quase vazio
+        if len(temporary_facts) < 3:
+            threading.Thread(target=preload_facts, daemon=True).start()
 
     def like_save_fact():
         saved_facts = load_Facts()
         fact = text_label.cget("text")
         if fact and fact != "Click 'Next Fact' to start!":
             dump_fact(saved_facts, fact)
-
-
 
     # Create a frame for the title area
     app_title_lf = tk.LabelFrame(root, text="", bg="#2C3E50", width=30, height=50, bd=0)
@@ -60,7 +66,6 @@ def launch_app():
     setting_img = PhotoImage(file="src/assets/setting.png")
     btn_setting = tk.Button(app_title_lf, image=setting_img, bg="#2C3E50", relief="groove", bd=0)
     btn_setting.place(x=450, y=5)
-
 
     # Load and display the "Did you know" image
     response_img = PhotoImage(file="src/assets/did-you-know.png")
@@ -101,6 +106,5 @@ def launch_app():
     btn_fav.place(x=90, y=400)
 
     root.bind("<Return>", lambda event: next_fact())
-
 
     root.mainloop()
