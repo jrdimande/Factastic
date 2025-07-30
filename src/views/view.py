@@ -4,6 +4,10 @@ from tkinter import PhotoImage
 from PIL import ImageTk, Image
 from src.apis.client import generate_random_facts
 from src.storage.saved_facts import load_Facts, dump_fact
+from src.utils.ttsx import say
+import threading
+
+
 
 def launch_app():
     # Create main window
@@ -12,6 +16,8 @@ def launch_app():
     root.configure(bg="#2C3E50")
     root.geometry("500x500")
     root.resizable(False, False)
+
+    mute = True
 
     # Try to load and set the app icon
     try:
@@ -26,6 +32,7 @@ def launch_app():
     def next_fact():
         fact = generate_random_facts()
         text_label.config(text=fact)
+        threading.Thread(target=say, args=(fact,), daemon=True).start()
 
     def like_save_fact():
         saved_facts = load_Facts()
