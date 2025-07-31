@@ -16,8 +16,16 @@ def launch_app():
     root.geometry("500x500")
     root.resizable(False, False)
 
-    mute = True
     temporary_facts = []
+    is_muted = False
+
+    def toggle_mute():
+        nonlocal is_muted
+        is_muted = not is_muted
+        if is_muted:
+            btn_sound.config(image=muted_img)
+        else:
+            btn_sound.config(image=sound_img)
 
     # Essa função preeche a lista com factos temporários para deixar o app mais r;ápido (enquanto mostra factos faz requests)
     def preload_facts(count=5):
@@ -36,7 +44,8 @@ def launch_app():
 
         fact = temporary_facts.pop(0)
         text_label.config(text=fact)
-        threading.Thread(target=say, args=(fact,), daemon=True).start()
+        if is_muted:
+            threading.Thread(target=say, args=(fact,), daemon=True).start()
 
         # Recarrega mais factos em segundo plano se o buffer estiver quase vazio
         if len(temporary_facts) < 3:
@@ -104,6 +113,12 @@ def launch_app():
                         font=("Segoe UI", 10, "bold"),
                         command=like_save_fact)
     btn_fav.place(x=90, y=400)
+
+    muted_img = PhotoImage(file="src/assets/muted.png")
+    sound_img = PhotoImage(file="src/assets/sound.png")
+
+    btn_sound = tk.Button(app_title_lf, image=muted_img, bg="#2C3E50", relief="groove", bd=0, command=toggle_mute)
+    btn_sound.place(x=400, y=8)
 
     root.bind("<Return>", lambda event: next_fact())
 
