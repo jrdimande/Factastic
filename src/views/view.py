@@ -44,7 +44,7 @@ def launch_app():
 
         fact = temporary_facts.pop(0)
         text_label.config(text=fact)
-        if is_muted:
+        if not is_muted:
             threading.Thread(target=say, args=(fact,), daemon=True).start()
 
         # Recarrega mais factos em segundo plano se o buffer estiver quase vazio
@@ -117,7 +117,7 @@ def launch_app():
     muted_img = PhotoImage(file="src/assets/muted.png")
     sound_img = PhotoImage(file="src/assets/sound.png")
 
-    btn_sound = tk.Button(app_title_lf, image=muted_img, bg="#2C3E50", relief="groove", bd=0, command=toggle_mute)
+    btn_sound = tk.Button(app_title_lf, image=sound_img, bg="#2C3E50", relief="groove", bd=0, command=toggle_mute)
     btn_sound.place(x=400, y=8)
 
     root.bind("<Return>", lambda event: next_fact())
