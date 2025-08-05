@@ -11,6 +11,7 @@ def dump_fact(saved_facts, fact):
         return "Fact saved successfully"
     return "This fact is already saved"
 
+
 def load_Facts():
     try:
         with open(filename, "r") as f:
@@ -18,5 +19,3 @@ def load_Facts():
             return saved
     except Exception:
         return []
-
-
