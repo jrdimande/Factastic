@@ -5,6 +5,7 @@ from random import choice
 
 saved_facts = load_Facts()
 
+
 def generate_random_facts():
     # Get a random fact from the API and return the text
     try:
