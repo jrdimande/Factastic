@@ -1,7 +1,5 @@
-import json
 import tkinter as tk
 from tkinter import PhotoImage
-from PIL import ImageTk, Image
 from src.apis.client import generate_random_facts
 from src.storage.saved_facts import load_Facts, dump_fact
 from src.utils.ttsx import say
@@ -27,7 +25,7 @@ def launch_app():
         else:
             btn_sound.config(image=sound_img)
 
-    # Essa função preeche a lista com factos temporários para deixar o app mais r;ápido (enquanto mostra factos faz requests)
+    # Essa função preeche a lista com factos temporarios
     def preload_facts(count=5):
         for _ in range(count):
             fact = generate_random_facts()
